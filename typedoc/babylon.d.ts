@@ -42668,6 +42668,21 @@ declare module BABYLON {
          * This is used when copying the position from a native (non XR) camera
          */
         compensateOnFirstFrame: boolean;
+        private _firstFrame;
+        private _referencedPosition;
+        private _referenceQuaternion;
+        private _xrInvPositionCache;
+        private _xrInvQuaternionCache;
+        private _realWorldHeight;
+        /**
+         * Prevent the camera from calculating the real-world height
+         * If you are not using the user's height disable this for better performance
+         */
+        disableRealWorldHeightCalculation: boolean;
+        /**
+         * Return the user's height, unrelated to the current ground.
+         */
+        get realWorldHeight(): number;
         /**
          * Creates a new webXRCamera, this should only be set at the camera after it has been updated by the xrSessionManager
          * @param name the name of the camera
@@ -44086,7 +44101,7 @@ declare module BABYLON {
          * The object provided as event data is this controller, after associated assets were disposed.
          * uniqueId is still available.
          */
-        onDisposeObservable: Observable<WebXRInputSource>;
+        onDisposeObservable: Observable<WebXRController>;
         private _tmpQuaternion;
         private _tmpVector;
         private _uniqueId;
@@ -68767,7 +68782,7 @@ declare module BABYLON {
          * Manually add a controller (if no xrInput was provided or physics engine was not enabled)
          * @param xrController the controller to add
          */
-        addController(xrController: WebXRInputSource): void;
+        addController(xrController: WebXRController): void;
         private _debugMode;
         /**
          * @hidden
@@ -72858,12 +72873,6 @@ declare module BABYLON.GUI {
         /** Gets or sets the bar background image */
         get barImage(): Image;
         set barImage(value: Image);
-        /** Gets or sets the horizontal bar background image */
-        get horizontalBarImage(): Image;
-        set horizontalBarImage(value: Image);
-        /** Gets or sets the vertical bar background image */
-        get verticalBarImage(): Image;
-        set verticalBarImage(value: Image);
         private _setWindowPosition;
         /** @hidden */
         private _updateScroller;
@@ -79697,4 +79706,4 @@ declare module BABYLON {
          */
         static Parse(parsedTexture: any, scene: BABYLON.Scene, rootUrl: string): WoodProceduralTexture;
     }
-}
+}
